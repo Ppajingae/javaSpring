@@ -1,7 +1,7 @@
 package com.yoong.javaspring2.connection.repository;
 
-
 import com.yoong.javaspring2.connection.domain.Member;
+import com.yoong.javaspring2.connection.repository.exception.RuntimeSQLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
@@ -10,21 +10,17 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.NoSuchElementException;
 
-/*
-*  JDBC -> 트렌젝션 매니저 사용
-* DataSourceUtils 사용
-* */
-
 @Slf4j
-public class MemberRepositoryV3{
+public class MemberRepositoryV4_1 implements MemberRepository {
 
     private final DataSource dataSource;
 
-    public MemberRepositoryV3(DataSource dataSource) {
+    public MemberRepositoryV4_1(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public Member save(Member member) throws SQLException {
+    @Override
+    public Member save(Member member){
 
         String sql = "insert into member (member_id, money) values (?, ?)";
 
@@ -42,14 +38,14 @@ public class MemberRepositoryV3{
             return member;
         }catch (SQLException e){
             log.error("db error", e);
-            throw e;
+            throw new RuntimeSQLException(e);
         }finally {
             close(connection, preparedStatement, null);
         }
     }
 
-
-    public Member findById(String memberId) throws SQLException{
+    @Override
+    public Member findById(String memberId){
         String sql = "select * from member where member_id = ?";
 
         Connection connection = null;
@@ -75,14 +71,14 @@ public class MemberRepositoryV3{
 
         }catch (SQLException e){
             log.error("db error", e);
-            throw e;
+            throw new RuntimeSQLException(e);
         }finally {
             close(connection, preparedStatement, resultSet);
         }
     }
 
-
-    public void update(String memberId, int money) throws SQLException{
+    @Override
+    public void update(String memberId, int money){
 
         String sql = "update member set money=? where member_id=?";
 
@@ -100,13 +96,14 @@ public class MemberRepositoryV3{
 
         }catch (SQLException e){
             log.error("db error", e);
-            throw e;
+            throw new RuntimeSQLException(e);
         }finally {
             close(connection, preparedStatement, null);
         }
     }
 
-    public void delete(String memberId) throws SQLException{
+    @Override
+    public void delete(String memberId){
 
         String sql = "delete from member where member_id = ?";
 
@@ -121,7 +118,7 @@ public class MemberRepositoryV3{
 
         }catch (SQLException e){
             log.error("db error", e);
-            throw e;
+            throw new RuntimeSQLException(e);
         }finally {
             close(connection, preparedStatement, null);
         }
