@@ -1,6 +1,6 @@
-package com.yoong.javaspring2.advenced.trace.log;
+package com.yoong.javaspring2.advanced.trace.log;
 
-import com.yoong.javaspring2.advenced.trace.TraceStatus;
+import com.yoong.javaspring2.advanced.trace.TraceStatus;
 import org.junit.jupiter.api.Test;
 
 class TraceLoggerTest {

@@ -1,6 +1,6 @@
-package com.yoong.javaspring2.advenced.order.service;
+package com.yoong.javaspring2.advanced.order.service;
 
-import com.yoong.javaspring2.advenced.order.repository.OrderRepositoryV0;
+import com.yoong.javaspring2.advanced.order.repository.OrderRepositoryV0;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

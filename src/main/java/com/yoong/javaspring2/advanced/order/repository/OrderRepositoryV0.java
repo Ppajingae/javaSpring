@@ -1,4 +1,4 @@
-package com.yoong.javaspring2.advenced.order.repository;
+package com.yoong.javaspring2.advanced.order.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

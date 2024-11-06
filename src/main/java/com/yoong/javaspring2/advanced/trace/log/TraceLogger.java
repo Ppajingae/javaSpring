@@ -1,7 +1,7 @@
-package com.yoong.javaspring2.advenced.trace.log;
+package com.yoong.javaspring2.advanced.trace.log;
 
-import com.yoong.javaspring2.advenced.trace.TraceId;
-import com.yoong.javaspring2.advenced.trace.TraceStatus;
+import com.yoong.javaspring2.advanced.trace.TraceId;
+import com.yoong.javaspring2.advanced.trace.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -9,14 +9,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class TraceLogger {
 
-    private static final String START_PREFIX = "-->";
-    private static final String COMPLETE_PREFIX = "<--";
-    private static final String EX_PREFIX = "<X-";
-
     public TraceStatus begin(String message) {
         TraceId traceId = new TraceId();
         Long startTimeMs = System.currentTimeMillis();
-        log.info("[{}] {}{}", traceId.getTraceId(), addSpace(START_PREFIX, traceId.getLevel()), message);
+        log.info("[{}] {}{}", traceId.getTraceId(), addSpace(LoggerType.START_PREFIX.getValue(), traceId.getLevel()), message);
+        return new TraceStatus(traceId, startTimeMs, message);
+    }
+
+    public TraceStatus beginSync(TraceId beforeTraceId, String message) {
+        TraceId traceId = beforeTraceId.createNextTraceId();
+        Long startTimeMs = System.currentTimeMillis();
+        log.info("[{}] {}{}", traceId.getTraceId(), addSpace(LoggerType.START_PREFIX.getValue(), traceId.getLevel()), message);
         return new TraceStatus(traceId, startTimeMs, message);
     }
 
@@ -35,11 +38,11 @@ public class TraceLogger {
 
         if (e == null) {
             log.info("[{}] {}{} time={}ms", traceId.getTraceId(),
-                    addSpace(COMPLETE_PREFIX, traceId.getLevel()), status.getMessage(),
+                    addSpace(LoggerType.COMPLETE_PREFIX.getValue(), traceId.getLevel()), status.getMessage(),
                     resultTimeMs);
         } else {
             log.info("[{}] {}{} time={}ms ex={}", traceId.getTraceId(),
-                    addSpace(EX_PREFIX, traceId.getLevel()), status.getMessage(), resultTimeMs,
+                    addSpace(LoggerType.EX_PREFIX.getValue(), traceId.getLevel()), status.getMessage(), resultTimeMs,
                     e.toString());
         }
     }

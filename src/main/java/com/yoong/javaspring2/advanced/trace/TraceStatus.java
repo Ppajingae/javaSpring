@@ -1,4 +1,4 @@
-package com.yoong.javaspring2.advenced.trace;
+package com.yoong.javaspring2.advanced.trace;
 
 
 import lombok.Getter;

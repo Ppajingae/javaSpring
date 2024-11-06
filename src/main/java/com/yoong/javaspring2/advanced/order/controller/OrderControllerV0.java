@@ -1,7 +1,7 @@
-package com.yoong.javaspring2.advenced.order.controller;
+package com.yoong.javaspring2.advanced.order.controller;
 
 
-import com.yoong.javaspring2.advenced.order.service.OrderServiceV0;
+import com.yoong.javaspring2.advanced.order.service.OrderServiceV0;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
